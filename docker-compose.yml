@@ -1,0 +1,24 @@
+version: "2.10"
+
+services:
+  roscore:
+    image: ros:noetic
+    container_name: roscore
+    command: roscore
+    ports:
+      - "11311:11311"
+
+  sandbox:
+    build:
+      context: ./docker
+      dockerfile: sandbox.Dockerfile
+    image: rossandbox
+    container_name: rossandbox
+    tty: true
+    hostname: circles
+    volumes:
+      - /home/fangyu/nekokin_ws:/home/circles/catkin_ws
+    ports:
+      - "2222:22"
+    depends_on:
+      - roscore
